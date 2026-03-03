@@ -1,45 +1,55 @@
-import pandas as pd
-from sklearn.metrics.pairwise import cosine_similarity
+import os
 import numpy as np
 import joblib
-import requests
-import json
+import pandas as pd
+from sklearn.metrics.pairwise import cosine_similarity
+from sentence_transformers import SentenceTransformer
+from groq import Groq
 
 
-# Create Embedding
 
+# Load Embedding Model
+
+embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
+
+
+# Load Stored Data
+
+df = joblib.load("embeddings.joblib")
+
+
+# Initialize Groq Client
+def get_groq_client():
+    api_key = os.environ.get("GROQ_API_KEY")
+
+    if not api_key:
+        raise ValueError("GROQ_API_KEY not found. Add it in Streamlit Secrets.")
+
+    return Groq(api_key=api_key)
+
+
+
+# Create Embeddings
 def create_embedding(text_list):
-    r = requests.post(
-        "http://localhost:11434/api/embed",
-        json={
-            "model": "bge-m3",
-            "input": text_list
-        }
-    )
-    return r.json()["embeddings"]
+    return embedding_model.encode(text_list).tolist()
+
 
 
 # Streaming Inference
-
 def inference_stream(prompt):
-    r = requests.post(
-        "http://localhost:11434/api/generate",
-        json={
-            "model": "llama3.2",
-            "prompt": prompt,
-            "stream": True
-        },
-        stream=True
+
+    client = get_groq_client()
+
+    completion = client.chat.completions.create(
+        model="llama3-8b-8192",
+        messages=[{"role": "user", "content": prompt}],
+        stream=True,
     )
 
-    for line in r.iter_lines():
-        if line:
-            data = json.loads(line.decode("utf-8"))
-            token = data.get("response", "")
-            yield token   
+    for chunk in completion:
+        if chunk.choices[0].delta.content:
+            yield chunk.choices[0].delta.content
 
-
-df = joblib.load('embeddings.joblib')
 
 
 # Main RAG Function
@@ -48,13 +58,17 @@ def ask_question(incoming_query):
     question_embedding = create_embedding([incoming_query])[0]
 
     similarities = cosine_similarity(
-        np.vstack(df['embedding']),
+        np.vstack(df["embedding"]),
         [question_embedding]
     ).flatten()
 
     top_results = 5
-    max_indx = similarities.argsort()[::-1][0:top_results]
+    max_indx = similarities.argsort()[::-1][:top_results]
     new_df = df.loc[max_indx]
+
+    context = new_df[
+        ["title", "number", "start", "end", "text"]
+    ].to_json(orient="records")
 
     prompt = f'''
 I am teaching HTML in my Sigma web development course. Here are video subtitle chunks containing video title, video number, start time in seconds, end time in seconds, the text at that time:
