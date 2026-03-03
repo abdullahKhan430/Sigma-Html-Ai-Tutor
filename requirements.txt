@@ -1,12 +1,6 @@
-os
-subprocess
-requests
-json
+streamlit
 scikit-learn
 numpy
 pandas
 joblib
-whisper
-sklearn.metrics.pairwise 
-streamlit
-
+requests
