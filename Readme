@@ -1,3 +1,12 @@
+Just Built an AI Tutor using RAG + LLMs
+I created Sigma HTML Forms AI Tutor — an AI-powered assistant trained on 10 HTML course lectures that provides timestamp-based video guidance.
+Instead of answering from memory, the system:
+• Converts user questions into embeddings
+• Performs semantic search over transcript chunks
+• Retrieves the most relevant sections
+• Uses Llama 3.2 to generate contextual answers
+• Streams responses in real time
+
 # How to use this RAG based AI Teaching assistant on your own data
 
 ## Step 1 - Collect your data
