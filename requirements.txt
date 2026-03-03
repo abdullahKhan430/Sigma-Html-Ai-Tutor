@@ -1,0 +1,11 @@
+0s
+subprocess
+whisper
+json
+numpy 
+pandas
+sklearn.metrics.pairwise
+request
+joblib
+streamlit
+scikit-learn
