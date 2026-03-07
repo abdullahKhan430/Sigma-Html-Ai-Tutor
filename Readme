@@ -1,11 +1,10 @@
-<<<<<<< HEAD
+
 # Sigma HTML AI Tutor
 
 Sigma HTML AI Tutor is a **RAG (Retrieval-Augmented Generation) based AI teaching assistant** that helps users learn HTML by asking questions about course videos.
 
 The system processes video lectures and converts them into searchable knowledge. When a user asks a question, the AI retrieves the most relevant parts of the course content and generates an answer using a locally running Large Language Model.
 
----
 
 ##  Features
 
@@ -16,7 +15,6 @@ The system processes video lectures and converts them into searchable knowledge.
 * Shows the **video number and timestamp** where the concept is explained
 * Simple interactive web interface built with Streamlit
 
----
 
 ## How It Works
 
@@ -34,11 +32,9 @@ This project follows the **Retrieval-Augmented Generation (RAG)** architecture.
    * The prompt is sent to a locally running LLM using Ollama
 6. The generated response is displayed in the Streamlit web app.
 
----
 
 ## Project Structure
 
-```
 sigma-html-ai-tutor
 │
 ├── app.py                # Streamlit web application
@@ -53,24 +49,19 @@ sigma-html-ai-tutor
 ├── jsons/                # Transcribed subtitle chunks
 │
 └── README.md
-```
 
----
 
 ## Installation
 
 Clone the repository:
 
-```
 git clone https://github.com/yourusername/sigma-html-ai-tutor.git
 cd sigma-html-ai-tutor
-```
 
 Install dependencies:
 
-```
 pip install -r requirements.txt
-```
+
 
 Install and run Ollama:
 
@@ -78,11 +69,7 @@ Download from: https://ollama.com
 
 Run the model:
 
-```
 ollama run llama3
-```
-
----
 
 ##  Data Processing Pipeline
 
@@ -93,48 +80,27 @@ Place your video files inside the **videos** folder.
 ### Step 2 – Convert Videos to MP3
 
 Run:
-
-```
 python videos_to_mp3.py
-```
-
 This extracts audio from video files.
-
 ### Step 3 – Convert MP3 to JSON
 
 Run:
-
-```
 python mp3_to_json.py
-```
-
 This generates JSON subtitle chunks from audio.
 
 ### Step 4 – Create Embeddings
-
 Run:
 
-```
 python preprocess_json.py
-```
 
 This converts text chunks into vector embeddings and saves them as **embeddings.joblib**.
 
----
-
-## 💻 Running the Application
+##  Running the Application
 
 Start the Streamlit app:
-
-```
 streamlit run app.py
-```
-
 Then open the browser link provided by Streamlit.
-
 Users can now interact with the **Sigma HTML AI Tutor** and ask questions about HTML concepts from the course videos.
-
----
 
 ## Tech Stack
 
@@ -146,14 +112,11 @@ Users can now interact with the **Sigma HTML AI Tutor** and ask questions about 
 * Pandas
 * Joblib
 * RAG (Retrieval-Augmented Generation)
-
----
+* whisper
+* Numpy
 
 ## Dataset
-
 This project uses **11 HTML tutorial videos from the Sigma Web Development Course** as the knowledge source.
-
----
 
 ##  Purpose of the Project
 
@@ -161,14 +124,10 @@ The goal of this project is to demonstrate how **AI assistants can answer questi
 
 It also serves as a learning project for building **RAG-based AI applications**.
 
----
-
 ## Demo
 
 A demo video of the system running locally can be found on my LinkedIn profile.
 https://www.linkedin.com/posts/abdullah-khan-935a66237_ai-machinelearning-rag-activity-7436110952128999424-Lr4N?utm_source=share&utm_medium=member_desktop&rcm=ACoAADsRO7kB2a0qNGfrKAJ_XmU3PB-UPoRVd8Q
-
----
 
 ## ⭐ Future Improvements
 
@@ -178,7 +137,6 @@ https://www.linkedin.com/posts/abdullah-khan-935a66237_ai-machinelearning-rag-ac
 * Cloud deployment
 * Support for more LLM models
 
----
 
 # How to use this RAG based AI Teaching assistant on your own data
 
